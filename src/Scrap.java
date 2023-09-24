@@ -1,15 +1,15 @@
 public class Scrap {
     public static void main(String[] args) {
-//String ss = "LVIII";
-//        System.out.println(romanToInt(ss));
-int x = 12321;
-        int result =0;
-        while(x>0){
-            int mFac = (int) Math.log10(x);
-            result += x%10 * (int)Math.pow(10,mFac);
-            x /=10;
-        }
-        System.out.println(result);
+String s = "LVIII";
+        System.out.println(romanToInt(s));
+//        int x = 12321;
+//        int result =0;
+//        while(x>0){
+//            int mFac = (int) Math.log10(x);
+//            result += x%10 * (int)Math.pow(10,mFac);
+//            x /=10;
+//        }
+//        System.out.println(result);
     }
 
 
