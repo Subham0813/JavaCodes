@@ -1,6 +1,6 @@
 public class Scrap {
     public static void main(String[] args) {
-String s = "LVIII";
+String s = "XVI";
         System.out.println(romanToInt(s));
 //        int x = 12321;
 //        int result =0;
@@ -10,6 +10,21 @@ String s = "LVIII";
 //            x /=10;
 //        }
 //        System.out.println(result);
+        int[] arr = {84,49,5,24,70,77,87,8};
+        System.out.println(timeRequiredToBuy(arr, 3));
+    }
+
+    public static int timeRequiredToBuy(int[] tickets, int k) {
+        int count = 0;
+        while(tickets[k]>0){
+            int i;
+            for(i=0; i<tickets.length; i++){
+                if(tickets[i]==0) continue;
+                tickets[i]--;
+                count++;
+            }
+        }
+        return count;
     }
 
 
