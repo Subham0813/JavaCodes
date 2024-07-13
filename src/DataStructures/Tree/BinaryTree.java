@@ -8,17 +8,36 @@ public class BinaryTree {
         int val;
         Node left;
         Node right;
+        Node(){}
         Node (int val){
             this.val = val;
         }
 
         void printTree(Node node){
             if(node == null){
+//                System.out.print("N" + " ");
                 return;
             }
             System.out.print(node.val + " ");
             printTree(node.left);
             printTree(node.right);
+        }
+        void printBFS(Node node){
+
+            Queue<Node> q = new LinkedList<>();
+            q.offer(node);
+            while(!q.isEmpty()){
+                int size = q.size();
+                for(int i =0; i< size; i++){
+                    Node curr = q.poll();
+                    if(curr == null ) System.out.print("N ");
+                    else System.out.print(curr.val + " ");
+                    if(curr!=null){
+                        q.offer(curr.left);
+                        q.offer(curr.right);
+                    }
+                }
+            }
         }
 
         static Map<Node, Integer> map = new HashMap<>();
@@ -75,6 +94,49 @@ public class BinaryTree {
             }
             return maxWidth;
         }
+        public static Node removeLeafNodes(Node root, int target) {
+            if(root == null) return root;
+            root.left = removeLeafNodes(root.left, target);
+            root.right = removeLeafNodes(root.right, target);
+            if(root.left == null && root.right == null && root.val == target){
+                root = null;
+            }
+            return root;
+        }
+
+        public static List<Node> findDuplicateSubtrees(Node root) {
+//            Map<Integer, Node> map = new HashMap<>();
+            Set<String> set = new HashSet<>();
+            List<Node> list = new ArrayList<>();
+            dfs(root, set, list);
+
+            return list;
+        }
+//        static void dfs2(Node root, Map<Integer, Node> map, List<Node> list){
+//            if(root == null) return;
+//            dfs2(root.left, map, list);
+//            dfs2(root.right, map, list);
+//            if(!map.containsKey(root.val)) map.put(root.val, root);
+//            else if(matchedTree(root, map.get(root.val))) list.add(root);
+//        }
+public static String dfs(Node root, Set<String> set, List<Node> list) {
+    if (root == null)
+        return "N";
+    StringBuilder s = new StringBuilder();
+    s.append((char) (root.val + '0'));
+    s.append(dfs(root.left, set, list));
+    s.append(dfs(root.right, set, list));
+
+    if (set.contains(s.toString())) list.addFirst(root);
+    else set.add(s.toString());
+    return s.toString();
+}
+        public static boolean matchedTree(Node root_A, Node root_B){
+            if(root_A == null && root_B == null) return true;
+            if(root_A == null || root_B == null) return false;
+            if(root_A.val != root_B.val) return false;
+            else return true & matchedTree(root_A.left, root_B.left) &  matchedTree(root_A.right, root_B.right);
+        }
 
     }
     static Node root;
@@ -105,10 +167,22 @@ public class BinaryTree {
 
     }
     private static void printTree(Node node){
-        if(node == null) return;
+        if(node == null) {
+            System.out.print('N' + " ");
+            return;
+        }
         System.out.print(node.val + " ");
         printTree(node.left);
         printTree(node.right);
+    }
+    public static Node removeLeafNodes(Node root, int target) {
+        if(root == null) return root;
+        Node left = removeLeafNodes(root.left, target);
+        Node right = removeLeafNodes(root.right, target);
+        if(left == null && right == null && root.val == target){
+            return new Node();
+        }
+        else return root;
     }
 
 
@@ -119,30 +193,33 @@ public class BinaryTree {
 //        bt.printTree(bt.root);
         //[5,4,5,1,1,null,5]
 
-        Node r = new Node(1);
-        r.left = new Node(3);
-        r.right = new Node(2);
+        Node r = new Node(0);
+        r.left = new Node(0);
+        r.right = new Node(0);
 
         Node ch1 = r.left;
-        ch1.left = new Node(5);
+        ch1.left = new Node(0);
         Node ch2 = r.right;
-        ch2.right = new Node(9);
+//        ch2.left = new Node(2);
+//        ch2.left.left= new Node(4);
+        ch2.right = new Node(0);
+        ch2.right.left = new Node(0);
 
-        Node ch3 = ch1.left;
-        ch3.left = new Node(6);
-        Node ch4 = ch2.right;
-        ch4.left = new Node(7);
-        r.printTree(r);
+//        Node ch3 = ch1.left;
+//        ch3.left = new Node(6);
+//        Node ch4 = ch2.right;
+//        ch4.left = new Node(7);
+        r.printBFS(r);
+        System.out.println();
+//        r.printTree(Node.removeLeafNodes(r, 2));
 
 //        System.out.println(r.longestUnivaluePath(r));
 //        List<List<Integer>> list = r.closestNodes(r,Arrays.asList(2,5,16));
 //        for(List<Integer> li : list){
 //            System.out.println(Arrays.toString(li.toArray()));
 //        }
-        System.out.println();
-        System.out.println(r.widthOfBinaryTree(r));
-
+//        System.out.println();
+//        System.out.println(r.widthOfBinaryTree(r));
+        System.out.println(r.findDuplicateSubtrees(r));
     }
-
-
 }

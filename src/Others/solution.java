@@ -11,10 +11,21 @@ class Solution {
 //        System.out.println(trap(heights));
 //        int[] nums = {-104,104,-449,-318,-930,-195,579,-410,822,-814,-388,-863,174,-814,919,-877,993,741,741,-623,-4,-4,542,997,239,447,-317,409,-487,-34,6,-914,607,-622,915,573,666,-229,165,841,-820,703};
 //        System.out.println(findMaxK(nums));
-        System.out.println(numSquares(12));
+//        System.out.println(numSquares(12));
+
+//        List<List<String>> res = partition("aab");
+//        for(List<String> li : res){
+//            System.out.println(li);
+//        }
+//
+//        Set<String> set = new HashSet<>();
+//        set.add("a");
+//        System.out.println(set.contains("a"));
 
 
     }
+
+
     public static int findMaxK(int[] nums) {
 //        Arrays.sort(nums);
 //        int l = 0, r = nums.length-1;
@@ -177,5 +188,42 @@ class Solution {
             }
             end = mid-1;
         }
+    }
+
+
+    static List<List<String>> res;
+    public static List<List<String>> partition(String s) {
+        res = new ArrayList<>();
+        backtrack(s, 0, new ArrayList<>());
+
+        return res;
+    }
+
+    private static void backtrack(String s, int id, List<String> list){
+
+        if(id == s.length()) {
+            res.add(new ArrayList<>(list));
+            return;
+        }
+
+        for(int i = id+1; i<=s.length(); i++){
+            String subStr = s.substring(id, i);
+            if(isPalindrome(subStr)) {
+                list.add(subStr);
+                backtrack(s, i, list);
+                list.remove(subStr);
+            }
+        }
+    }
+
+    private static boolean isPalindrome(String s) {
+        int l = 0, r = s.length() - 1;
+        while (l < r) {
+            if (s.charAt(l) != s.charAt(r))
+                return false;
+            l++;
+            r--;
+        }
+        return true;
     }
 }
